@@ -26,11 +26,11 @@ func main() {
 	}
 
 	handler := &infrastructure.HttpHandler{}
-	adapter := adapters.NewWundergroundAdapter(key, location, handler)
+	adapter := adapters.NewWundergroundAdapter(key, handler)
 	presenter := &adapters.BoxPresenter{}
 
 	forecaster := usecase.NewForecastInteractor(adapter, presenter)
-	err := forecaster.Show()
+	err := forecaster.Show(location)
 	if err != nil {
 		panic(err)
 	}

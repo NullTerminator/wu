@@ -18,7 +18,6 @@ type (
 
 	wundergroundAdapter struct {
 		key         string
-		location    string
 		httpHandler HttpHandler
 	}
 
@@ -74,16 +73,15 @@ type (
 	}
 )
 
-func NewWundergroundAdapter(key, location string, handler HttpHandler) *wundergroundAdapter {
+func NewWundergroundAdapter(key string, handler HttpHandler) *wundergroundAdapter {
 	return &wundergroundAdapter{
 		key:         key,
-		location:    location,
 		httpHandler: handler,
 	}
 }
 
-func (wa *wundergroundAdapter) Get() ([]*models.ForecastDay, error) {
-	url := fmt.Sprintf("%s%s/forecast10day/q/%s.json", API_ROOT, wa.key, wa.location)
+func (wa *wundergroundAdapter) Get(location string) ([]*models.ForecastDay, error) {
+	url := fmt.Sprintf("%s%s/forecast10day/q/%s.json", API_ROOT, wa.key, location)
 	body, err := wa.httpHandler.Get(url)
 	if err != nil {
 		return nil, err
