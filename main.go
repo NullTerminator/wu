@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 	"wu/adapters"
 	"wu/infrastructure"
@@ -8,8 +9,21 @@ import (
 )
 
 func main() {
-	key := os.Getenv("WU_KEY")
-	location := os.Getenv("WU_LOCATION")
+	var (
+		key      string
+		location string
+	)
+
+	flag.StringVar(&key, "api_key", os.Getenv("WU_KEY"), "WeatherUnderground API Key")
+	flag.StringVar(&location, "location", os.Getenv("WU_LOCATION"), "City and state location: (Freedom, NH)")
+	flag.Parse()
+
+	if key == "" {
+		panic("API key required via WU_KEY env var or '--api_key' argument")
+	}
+	if location == "" {
+		panic("location required via WU_LOCATION env var or '--location' argument")
+	}
 
 	handler := &infrastructure.HttpHandler{}
 	adapter := adapters.NewWundergroundAdapter(key, location, handler)
