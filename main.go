@@ -16,10 +16,10 @@ func main() {
 	flag.BoolVar(debug, "d", false, "Debug logging")
 	flag.Parse()
 
-	if key == nil {
+	if *key == "" {
 		panic("API key required via WU_KEY env var or '--api_key' argument")
 	}
-	if location == nil {
+	if *location == "" {
 		panic("location required via WU_LOCATION env var or '--location' argument")
 	}
 	if *debug {
