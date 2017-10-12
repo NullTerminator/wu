@@ -12,8 +12,11 @@ import (
 func main() {
 	key := flag.String("api_key", os.Getenv("WU_KEY"), "WeatherUnderground API Key")
 	location := flag.String("location", os.Getenv("WU_LOCATION"), "City and state location: (Freedom, NH)")
+	astronomy := flag.Bool("astronomy", false, "")
+
 	debug := flag.Bool("debug", false, "Debug logging")
 	flag.BoolVar(debug, "d", false, "Debug logging")
+
 	flag.Parse()
 
 	if *key == "" {
@@ -30,10 +33,18 @@ func main() {
 
 	handler := infrastructure.NewHttpHandler(logger.Logger)
 	adapter := adapters.NewWundergroundAdapter(*key, handler, logger.Logger)
-	presenter := adapters.NewBoxPresenter(logger.Logger)
 
-	forecaster := usecase.NewForecastInteractor(adapter, presenter)
-	err := forecaster.Show(*location)
+	var err error
+	if *astronomy {
+		presenter := adapters.NewBoxAstronomyPresenter(logger.Logger)
+		useCase := usecase.NewAstronomyInteractor(adapter, presenter)
+		err = useCase.ShowAstronomy(*location)
+	} else {
+		presenter := adapters.NewBoxForecastPresenter(logger.Logger)
+		forecaster := usecase.NewForecastInteractor(adapter, presenter)
+		err = forecaster.ShowTenDay(*location)
+	}
+
 	if err != nil {
 		panic(err)
 	}

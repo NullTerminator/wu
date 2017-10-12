@@ -3,7 +3,11 @@ package adapters
 import "wu/models"
 
 type (
-	Presenter interface {
-		Print(days []*models.ForecastDay) error
+	ForecastPresenter interface {
+		Print([]*models.ForecastDay) error
+	}
+
+	AstronomyPresenter interface {
+		Print(*models.AstronomyDay) error
 	}
 )
