@@ -4,7 +4,7 @@ import "wu/models"
 
 type (
 	ForecastInteractor interface {
-		Show(string) error
+		ShowTenDay(string) error
 	}
 
 	ForecastPresenter interface {
@@ -24,8 +24,8 @@ func NewForecastInteractor(repo models.ForecastRepository, presenter ForecastPre
 	}
 }
 
-func (fi *forecastInteractor) Show(location string) error {
-	days, err := fi.Repo.Get(location)
+func (fi *forecastInteractor) ShowTenDay(location string) error {
+	days, err := fi.Repo.GetTenDayForecast(location)
 	if err != nil {
 		return err
 	}

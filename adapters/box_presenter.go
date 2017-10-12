@@ -8,20 +8,20 @@ import (
 )
 
 type (
-	BoxPresenter Presenter
+	BoxForecastPresenter ForecastPresenter
 
-	boxPresenter struct {
+	boxForecastPresenter struct {
 		logger Logger
 	}
 )
 
-func NewBoxPresenter(logger Logger) BoxPresenter {
-	return &boxPresenter{
+func NewBoxForecastPresenter(logger Logger) BoxForecastPresenter {
+	return &boxForecastPresenter{
 		logger: logger,
 	}
 }
 
-func (presenter *boxPresenter) Print(days []*models.ForecastDay) error {
+func (presenter *boxForecastPresenter) Print(days []*models.ForecastDay) error {
 	goterm.Clear()
 
 	dayCount := len(days)

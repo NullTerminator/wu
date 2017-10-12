@@ -2,7 +2,7 @@ package models
 
 type (
 	ForecastRepository interface {
-		Get(string) ([]*ForecastDay, error)
+		GetTenDayForecast(string) ([]*ForecastDay, error)
 	}
 
 	ForecastDay struct {
