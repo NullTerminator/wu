@@ -6,4 +6,8 @@ type (
 	ForecastPresenter interface {
 		Print([]*models.ForecastDay) error
 	}
+
+	AstronomyPresenter interface {
+		Print(*models.AstronomyDay) error
+	}
 )
